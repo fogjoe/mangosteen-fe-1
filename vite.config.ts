@@ -9,7 +9,7 @@ import { svgstore } from './src/vite_plugins/svgstore'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/mangosteen-fe-1/dist/',
+  // base: '/mangosteen-fe-1/dist/',
   plugins: [
     vue(),
     vueJsx({
