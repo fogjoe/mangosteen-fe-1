@@ -1,5 +1,5 @@
 import { Dialog } from 'vant'
-import { defineComponent, onMounted, PropType, ref } from 'vue'
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useMeStore } from '../stores/useMeStore'
 import { Icon } from './Icon'
@@ -29,6 +29,7 @@ export const Overlay = defineComponent({
       localStorage.removeItem('jwt')
       window.location.reload()
     }
+
     return () => (
       <>
         <div class={s.mask} onClick={close}></div>
@@ -48,7 +49,7 @@ export const Overlay = defineComponent({
           </section>
           <nav>
             <ul class={s.action_list}>
-              <li>
+              <li onClick={close}>
                 <RouterLink to="/items" class={s.action}>
                   <Icon name="pig" class={s.icon} />
                   <span>记账</span>

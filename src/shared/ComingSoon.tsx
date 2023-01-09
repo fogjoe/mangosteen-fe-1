@@ -1,4 +1,4 @@
-import { Button } from 'vant'
+import { Button } from './Button'
 import { defineComponent, PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import { Center } from './Center'
