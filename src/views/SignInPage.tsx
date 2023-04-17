@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useBool } from '../hooks/useBool'
 import { MainLayout } from '../layouts/MainLayout'
@@ -69,6 +69,14 @@ export const SignInPage = defineComponent({
       // 成功
       refValidationCode.value.startCount()
     }
+
+    // 验证preview=yes
+    onMounted(() => {
+      const index = route.fullPath.indexOf('?')
+      if (route.fullPath.slice(index + 1) === 'preview=yes') {
+        formData.code = '123456'
+      }
+    })
     return () => (
       <MainLayout>
         {{
