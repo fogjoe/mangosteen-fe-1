@@ -27,6 +27,7 @@ export const Charts = defineComponent({
   setup: (props, context) => {
     const kind = ref('expenses')
     const data1 = ref<Data1>([])
+    const isDisplay = ref(true)
     const betterData1 = computed<[string, number][]>(() => {
       if (!props.startDate || !props.endDate) {
         return []
@@ -59,7 +60,20 @@ export const Charts = defineComponent({
       data1.value = response.data.groups
     }
     onMounted(fetchData1)
-    watch(() => kind.value, fetchData1)
+    // watch(() => kind.value, fetchData1)
+    watch(
+      () => [kind.value, props],
+      (newVal) => {
+        const { startDate, endDate } = newVal[1] as { startDate: string; endDate: string }
+        if (startDate && endDate) {
+          isDisplay.value = true
+          fetchData1()
+        } else {
+          isDisplay.value = false
+        }
+      },
+      { immediate: true, deep: true }
+    )
 
     const data2 = ref<Data2>([])
     const betterData2 = computed<{ name: string; value: number }[]>(() =>
@@ -95,21 +109,24 @@ export const Charts = defineComponent({
     onMounted(fetchData2)
     watch(() => kind.value, fetchData2)
 
-    return () => (
-      <div class={s.wrapper}>
-        <FormItem
-          label="类型"
-          type="select"
-          options={[
-            { value: 'expenses', text: '支出' },
-            { value: 'income', text: '收入' }
-          ]}
-          v-model={kind.value}
-        />
-        <LineChart data={betterData1.value} />
-        <PieChart data={betterData2.value} />
-        <Bars data={betterData3.value} />
-      </div>
-    )
+    return () =>
+      isDisplay.value ? (
+        <div class={s.wrapper}>
+          <FormItem
+            label="类型"
+            type="select"
+            options={[
+              { value: 'expenses', text: '支出' },
+              { value: 'income', text: '收入' }
+            ]}
+            v-model={kind.value}
+          />
+          <LineChart data={betterData1.value} />
+          <PieChart data={betterData2.value} />
+          <Bars data={betterData3.value} />
+        </div>
+      ) : (
+        <div>请选择时间</div>
+      )
   }
 })

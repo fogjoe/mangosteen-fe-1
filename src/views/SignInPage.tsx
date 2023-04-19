@@ -14,7 +14,7 @@ export const SignInPage = defineComponent({
   setup: (props, context) => {
     const meStore = useMeStore()
     const formData = reactive({
-      email: '1055824818@qq.com',
+      email: '',
       code: ''
     })
     const errors = reactive({
@@ -74,6 +74,7 @@ export const SignInPage = defineComponent({
     onMounted(() => {
       const index = route.fullPath.indexOf('?')
       if (route.fullPath.slice(index + 1) === 'preview=yes') {
+        formData.email = '1055824818@qq.com'
         formData.code = '123456'
       }
     })
