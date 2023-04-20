@@ -68,6 +68,7 @@ export const Charts = defineComponent({
         if (startDate && endDate) {
           isDisplay.value = true
           fetchData1()
+          fetchData2()
         } else {
           isDisplay.value = false
         }
@@ -91,7 +92,7 @@ export const Charts = defineComponent({
       }))
     })
 
-    const fetchData2 = async () => {
+    async function fetchData2() {
       const response = await http.get<{ groups: Data2; summary: number }>(
         '/items/summary',
         {
@@ -107,7 +108,7 @@ export const Charts = defineComponent({
       data2.value = response.data.groups
     }
     onMounted(fetchData2)
-    watch(() => kind.value, fetchData2)
+    // watch(() => kind.value, fetchData2)
 
     return () =>
       isDisplay.value ? (
