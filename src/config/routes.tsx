@@ -56,6 +56,8 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/statistics',
+    name: 'Statistics',
+    // meta: { keepAlive: true },
     component: () => import('../views/StatisticsPage')
   },
   {

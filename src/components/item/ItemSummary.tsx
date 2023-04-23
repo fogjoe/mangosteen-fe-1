@@ -119,7 +119,7 @@ export const ItemSummary = defineComponent({
           ) : (
             <>
               <Center class={s.pig_wrapper} direction="|">
-                <Icon name="pig" class={s.pig} />
+                <Icon name="sun" class={s.pig} />
                 <p>目前没有数据</p>
               </Center>
               <div class={s.button_wrapper}>

@@ -30,9 +30,9 @@ export const Welcome = defineComponent({
       <div class={s.wrapper}>
         <header>
           <svg>
-            <use xlinkHref="#mangosteen"></use>
+            <use xlinkHref="#life"></use>
           </svg>
-          <h1>山竹记账</h1>
+          <h1>生活记账</h1>
         </header>
         <main class={s.main} ref={main}>
           <RouterView name="main">
