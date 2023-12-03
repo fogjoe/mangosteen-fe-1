@@ -55,7 +55,7 @@ export default defineConfig(({ command }) => {
       // disableHostCheck: true,
       proxy: {
         '/api/v1': {
-          target: 'http://119.13.76.184:3000/'
+          target: 'http://123.56.180.76:3000/'
         }
       }
     }
