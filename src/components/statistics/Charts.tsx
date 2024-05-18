@@ -27,18 +27,19 @@ export const Charts = defineComponent({
   setup: (props, context) => {
     const kind = ref('expenses')
     const data1 = ref<Data1>([])
-    const isDisplay = ref(true)
     const betterData1 = computed<[string, number][]>(() => {
       if (!props.startDate || !props.endDate) {
         return []
       }
       const diff = new Date(props.endDate).getTime() - new Date(props.startDate).getTime()
       const n = diff / DAY + 1
+      data1.value.reverse()
       return Array.from({ length: n }).map((_, i) => {
         const time = new Time(props.startDate + 'T00:00:00.000+0800').add(i, 'day').getTimestamp()
         const item = data1.value[0]
         const amount =
           item && new Date(item.happen_at + 'T00:00:00.000+0800').getTime() === time ? data1.value.shift()!.amount : 0
+
         return [new Date(time).toISOString(), amount]
       })
     })
@@ -60,21 +61,7 @@ export const Charts = defineComponent({
       data1.value = response.data.groups
     }
     onMounted(fetchData1)
-    // watch(() => kind.value, fetchData1)
-    watch(
-      () => [kind.value, props],
-      (newVal) => {
-        const { startDate, endDate } = newVal[1] as { startDate: string; endDate: string }
-        if (startDate && endDate) {
-          isDisplay.value = true
-          fetchData1()
-          fetchData2()
-        } else {
-          isDisplay.value = false
-        }
-      },
-      { immediate: true, deep: true }
-    )
+    watch(() => kind.value, fetchData1)
 
     const data2 = ref<Data2>([])
     const betterData2 = computed<{ name: string; value: number }[]>(() =>
@@ -108,26 +95,22 @@ export const Charts = defineComponent({
       data2.value = response.data.groups
     }
     onMounted(fetchData2)
-    // watch(() => kind.value, fetchData2)
+    watch(() => kind.value, fetchData2)
 
     return () =>
-      isDisplay.value ? (
-        <div class={s.wrapper}>
-          <FormItem
-            label="类型"
-            type="select"
-            options={[
-              { value: 'expenses', text: '支出' },
-              { value: 'income', text: '收入' }
-            ]}
-            v-model={kind.value}
-          />
-          <LineChart data={betterData1.value} />
-          <PieChart data={betterData2.value} />
-          <Bars data={betterData3.value} />
-        </div>
-      ) : (
-        <div>请选择时间</div>
-      )
+      <div class={s.wrapper}>
+        <FormItem
+          label="类型"
+          type="select"
+          options={[
+            { value: 'expenses', text: '支出' },
+            { value: 'income', text: '收入' }
+          ]}
+          v-model={kind.value}
+        />
+        <LineChart data={betterData1.value} />
+        <PieChart data={betterData2.value} />
+        <Bars data={betterData3.value} />
+      </div>
   }
 })
